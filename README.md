@@ -5,7 +5,7 @@
 
 ## Installation
 ```bash
-$ [sudo] pip3 install custom-neuralnet
+$ [sudo] pip3 install customneuralnet
 ``` 
 ## Usage
 ```python3
@@ -25,5 +25,5 @@ nn.add_layer(3, "sigmoid")
 
 # Note the last layer you added will be the output layer of the NN
 # Compile the nn
-nn.compile(training_data, epochs, mini_batch_size, eta, gamma=None, optimizer="GD", mode="batch", shuffle=True, test_data, task="classification")
+# nn.compile(training_data, epochs, mini_batch_size, eta, gamma=None, optimizer="GD", mode="batch", shuffle=True, test_data, task="classification")
 ```
