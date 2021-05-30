@@ -1,5 +1,5 @@
 # Custom Neural Networks
-* You could create a customized Feedforward Neural Network by changing the number of layers, activation functions, loss function and optimizer.
+* Create a customized Feedforward Neural Network by changing the number of layers, activation functions, loss function and optimizer.
 * Refer to the documentation of any class/method by using help(class/method)
 * Please refer to this [repo](https://github.com/Taarak9/Neural-Networks) for more information.
 
