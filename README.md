@@ -3,11 +3,11 @@
 * Refer to the documentation of any class/method by using help(class/method)
 * Please refer to this [repo](https://github.com/Taarak9/Neural-Networks) for more information.
 
-##Installation
+## Installation
 ```bash
 $ [sudo] pip3 install custom-neuralnet
 ``` 
-##Usage
+## Usage
 
 ```python3
 >>> from custom-neuralnet import FNN
