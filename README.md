@@ -8,7 +8,6 @@
 $ [sudo] pip3 install custom-neuralnet
 ``` 
 ## Usage
-
 ```python3
 >>> from custom-neuralnet import FNN
 ```
