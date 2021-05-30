@@ -9,7 +9,7 @@ $ [sudo] pip3 install custom-neuralnet
 ``` 
 ## Usage
 ```python3
->>> from custom-neuralnet import FNN
+>>> from customneuralnet import FNN
 ```
 ### Creating a Feedforward Neural Network
 ```python3
