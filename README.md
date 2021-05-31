@@ -27,4 +27,4 @@ nn.add_layer(3, "sigmoid")
 # Compile the nn
 # nn.compile(training_data, epochs, mini_batch_size, eta, gamma=None, optimizer="GD", mode="batch", shuffle=True, test_data, task="classification")
 ```
-* Refer to the Handwritten digit recognizer(https://github.com/Taarak9/Handwritten-Digit-Recognition/blob/main/src/FNN/hdr_fnn.ipynb) built using this package.
+* Refer to the [Handwritten digit recognizer](https://github.com/Taarak9/Handwritten-Digit-Recognition/blob/main/src/FNN/hdr_fnn.ipynb) built using this package.
