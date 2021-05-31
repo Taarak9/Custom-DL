@@ -1,6 +1,6 @@
 # Custom Neural Networks
 * Create a customized Feedforward Neural Network by changing the number of layers, activation functions, loss function and optimizer.
-* Refer to the documentation of any class/method by using help(class/method)
+* Refer to the documentation of any class/method by using help(class/method) Eg: help(FNN)
 * Please refer to this [repo](https://github.com/Taarak9/Neural-Networks) for more information.
 
 ## Installation
@@ -27,3 +27,4 @@ nn.add_layer(3, "sigmoid")
 # Compile the nn
 # nn.compile(training_data, epochs, mini_batch_size, eta, gamma=None, optimizer="GD", mode="batch", shuffle=True, test_data, task="classification")
 ```
+* Refer to the Handwritten digit recognizer(https://github.com/Taarak9/Handwritten-Digit-Recognition/blob/main/src/FNN/hdr_fnn.ipynb) built using this package.
