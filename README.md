@@ -1,19 +1,19 @@
-# Custom Neural Networks
+# Custom Deep Learning
 * Create a customized Feedforward Neural Network by changing the number of layers, activation functions, loss function and optimizer.
 * Refer to the documentation of any class/method by using help(class/method) Eg: help(FNN)
 * Please refer to this [repo](https://github.com/Taarak9/Neural-Networks) for more information.
 
 ## Installation
 ```bash
-$ [sudo] pip3 install customneuralnet
+$ [sudo] pip3 install customdl
 ``` 
 ## Development Installation
 ```bash
-$ git clone https://github.com/Taarak9/Custom-Neural-Networks.git
+$ git clone https://github.com/Taarak9/Custom-DL.git
 ```
 ## Usage
 ```python3
->>> from customneuralnet import FNN
+>>> from customdl import FNN
 ```
 ### Creating a Feedforward Neural Network
 ```python3
