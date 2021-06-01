@@ -12,13 +12,13 @@ with open('requirements.txt', 'r') as fh:
 print(find_packages())
 
 setup(
-    name='custom-neuralnet',
-    version='0.0.1',
+    name='customdl',
+    version='1.0.7',
     author="Taarak Rapolu",
     author_email="taarak.rapolu@gmail.com",
     url="",
     packages=find_packages(),
-    description='Custom Neural Networks',
+    description='Custom Deep Learning',
     long_description=long_description,
     long_description_content_type="text/markdown",
     install_requires=install_requires,
