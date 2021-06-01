@@ -7,6 +7,10 @@
 ```bash
 $ [sudo] pip3 install customneuralnet
 ``` 
+## Development Installation
+```bash
+$ git clone https://github.com/Taarak9/Custom-Neural-Networks.git
+```
 ## Usage
 ```python3
 >>> from customneuralnet import FNN
@@ -25,6 +29,6 @@ nn.add_layer(3, "sigmoid")
 
 # Note the last layer you added will be the output layer of the NN
 # Compile the nn
-# nn.compile(training_data, epochs, mini_batch_size, eta, gamma=None, optimizer="GD", mode="batch", shuffle=True, test_data, task="classification")
+nn.compile(training_data, test_data)
 ```
 * Refer to the [Handwritten digit recognizer](https://github.com/Taarak9/Handwritten-Digit-Recognition/blob/main/src/FNN/hdr_fnn.ipynb) built using this package.
