@@ -31,4 +31,9 @@ nn.add_layer(3, "sigmoid")
 # Compile the nn
 nn.compile(training_data, test_data)
 ```
+* Available options:
+    * Activation functions: Identity, Sigmoid, Softmax, Tanh, ReLU
+    * Loss functions: MSE, Cross Entropy
+    * Learning mode: online, mini-batch, batch
+    * Optimizers: GD, Momentum based GD, Nesterov accerelated GD  
 * Refer to the [Handwritten digit recognizer](https://github.com/Taarak9/Handwritten-Digit-Recognition/blob/main/src/FNN/hdr_fnn.ipynb) built using this package.
