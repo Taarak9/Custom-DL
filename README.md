@@ -37,3 +37,9 @@ nn.compile(training_data, test_data)
     * Learning mode: online, mini-batch, batch
     * Optimizers: GD, Momentum based GD, Nesterov accerelated GD  
 * Refer to the [Handwritten digit recognizer](https://github.com/Taarak9/Handwritten-Digit-Recognition/blob/main/src/FNN/hdr_fnn.ipynb) built using this package.
+
+### To-do list
+* [ ] Use validation data for parameter selection
+* [ ] Add optimizers: Adam and RMSProp
+* [ ] Write seperate fn for weight initialization methods
+* [ ] Add regularization techniques: L1, L2, dropout
