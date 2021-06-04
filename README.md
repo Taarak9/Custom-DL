@@ -1,7 +1,9 @@
 # Custom Deep Learning
 * Create a customized Feedforward Neural Network by changing the number of layers, activation functions, loss function and optimizer.
-* Refer to the documentation of any class/method by using help(class/method) Eg: help(FNN)
-* Please refer to this [repo](https://github.com/Taarak9/Neural-Networks) for more information.
+* Refer to the documentation of any class/method by using help(class/method) Eg: help(FNN), help(FNN.compile)
+* For intuitive explanations of the underlying theory refer:
+   * [Feedforward Neural Network](https://github.com/Taarak9/Neural-Networks/tree/master/Feedforward%20Neural%20Network)
+   * [Optimizers](https://github.com/Taarak9/Neural-Networks/blob/master/Optimizers/README.md)
 
 ## Installation
 ```bash
