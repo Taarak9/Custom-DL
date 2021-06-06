@@ -335,13 +335,20 @@ class FNN():
     if (self.loss_fn == "mse"):
         delta = loss_grad * activation_function(self.activation_types[-1], zs[-1], True)
     elif (self.loss_fn == "ce"):
-        # if sigmoid or softmax: derivative is out*(1-out) and they cancel each other
+        # if sigmoid or softmax: derivative is out*(1-out): num and den cancel each other
         if (self.activation_types[-1] == "sigmoid" or self.activation_types[-1] == "softmax"):
             delta = loss_grad
         else:
             az = activation_function(self.activation_types[-1], zs[-1], False)
             delta = loss_grad * (activation_function(self.activation_types[-1], zs[-1], True) / (az * ( 1 - az )))
-
+    elif (self.loss_fn == "ll"):
+        # if sigmoid or softmax: derivative is out*(1-out): num and den cancel each other
+        if (self.activation_types[-1] == "sigmoid" or self.activation_types[-1] == "softmax"):
+            delta = activations[-1]
+        else:
+            az = activation_function(self.activation_types[-1], zs[-1], False)
+            delta = loss_grad * activation_function(self.activation_types[-1], zs[-1], True)
+    
     gradient_w[-1] = np.dot(delta, activations[-2].transpose())
     gradient_b[-1] = delta
     # backpropagate the error
@@ -733,20 +740,20 @@ def loss_function(name, y, y_hat, derivative=False):
           ce ( Cross entropy ) 
 
   y: list 
-      List of numpy arrays ( target )
+      numpy array ( target )
   
   y_hat: list
-      List of numpy arrays ( output )
+      numpy array ( output )
 
   derivative: bool
-      If true, returns the derivative of loss.
+      If True, returns the derivative of loss.
       Default: False
 
   Returns
   -------
-  List
+  numpy array
   """
-
+  
   # y - target, y_hat - output
   # Mean Squared Error
   if name == "mse":
@@ -754,6 +761,12 @@ def loss_function(name, y, y_hat, derivative=False):
           return (y_hat - y)
       else:
           return np.mean((y - y_hat)**2)
+  # Log-likelihood
+  elif name == "ll":
+      if derivative:
+          return - (1 / y_hat)
+      else:
+          return -1 * np.log(y_hat)
   # y - target prob distro, y_hat - output prob distro
   # Cross Entropy
   elif name == "ce":
@@ -778,7 +791,7 @@ def activation_function(name, input, derivative=False):
             tanh
             relu  
 
-  input: int/float/list
+  input: int/float/list/array
 
   derivative: bool
       If true, returns the derivative of loss.
@@ -786,14 +799,14 @@ def activation_function(name, input, derivative=False):
 
   Returns
   -------
-  None
+  Numpy array or list
   """
 
   if name == "identity":
       if derivative:
-          return np.ones_like(x)
+          return np.ones_like(input)
       else:
-          return x
+          return input
   elif name == "sigmoid":
       if derivative:
           out = activation_function(name, input)
@@ -818,4 +831,3 @@ def activation_function(name, input, derivative=False):
           return (input > 0) * 1
       else:
           return np.maximum(0, input)
-
