@@ -2,8 +2,8 @@
 * Create a customized Feedforward Neural Network by changing the number of layers, activation functions, loss function and optimizer.
 * Refer to the documentation of any class/method by using help(class/method) Eg: help(FNN), help(FNN.compile)
 * For intuitive explanations of the underlying theory refer:
-   * [Feedforward Neural Network](https://github.com/Taarak9/Neural-Networks/blob/master/Feedforward%20Neural%20Network/README.md)
-   * [Optimizers](https://github.com/Taarak9/Neural-Networks/blob/master/Optimizers/README.md)
+   * [Feedforward Neural Network](https://github.com/Taarak9/DL-from-Scratch/blob/master/Feedforward%20Neural%20Network/README.md)
+   * [Optimizers](https://github.com/Taarak9/DL-from-Scratch/blob/master/Optimizers/README.md)
 
 ## Installation
 ```bash
@@ -41,7 +41,8 @@ nn.compile(training_data, test_data)
 * Refer to the [Handwritten digit recognizer](https://github.com/Taarak9/Handwritten-Digit-Recognition/blob/main/src/FNN/hdr_fnn.ipynb) built using this package.
 
 ### To-do list
-* [ ] Use validation data for parameter selection
-* [ ] Add optimizers: Adam and RMSProp
-* [ ] Write seperate fn for weight initialization methods
-* [ ] Add regularization techniques: L1, L2, dropout
+* [ ] Use validation data for hyperparameter tuning
+* [ ] Plots for monitoring loss and accuracy over epochs
+* [ ] Regularization techniques: L1, L2, dropout
+* [ ] Add optimizers: Adam, RMSProp
+* [ ] RBF NN
