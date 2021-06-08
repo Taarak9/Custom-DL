@@ -34,6 +34,7 @@ nn.add_layer(3, "sigmoid")
 nn.compile(training_data, test_data)
 ```
 * Available options:
+    * Weight initialization: Random, Xavier, He 
     * Activation functions: Identity, Sigmoid, Softmax, Tanh, ReLU
     * Loss functions: MSE, Cross Entropy
     * Learning mode: online, mini-batch, batch
