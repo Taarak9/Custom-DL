@@ -13,7 +13,7 @@ print(find_packages())
 
 setup(
     name='customdl',
-    version='1.0.7',
+    version='1.0.13',
     author="Taarak Rapolu",
     author_email="taarak.rapolu@gmail.com",
     url="",
