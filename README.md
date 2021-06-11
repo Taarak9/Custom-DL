@@ -1,7 +1,13 @@
 # Custom Deep Learning
-* Create a customized Feedforward Neural Network by changing the number of layers, activation functions, loss function and optimizer.
+* Create a customized Feedforward Neural Network
+    * Available options:
+        * Weight initialization: Random, Xavier, He 
+        * Activation functions: Identity, Sigmoid, Softmax, Tanh, ReLU
+        * Loss functions: MSE, Cross Entropy
+        * Optimizers: GD, Momentum based GD, Nesterov accerelated GD  
+        * Learning mode: online, mini-batch, batch
 * Refer to the documentation of any class/method by using help(class/method) Eg: help(FNN), help(FNN.compile)
-* For intuitive explanations of the underlying theory refer:
+* For a high-level overview of the underlying theory refer:
    * [Feedforward Neural Network](https://github.com/Taarak9/DL-from-Scratch/blob/master/Feedforward%20Neural%20Network/README.md)
    * [Optimizers](https://github.com/Taarak9/DL-from-Scratch/blob/master/Optimizers/README.md)
 
@@ -17,33 +23,28 @@ $ git clone https://github.com/Taarak9/Custom-DL.git
 ```python3
 >>> from customdl import FNN
 ```
-### Creating a Feedforward Neural Network
+### Handwritten Digit Recognition example
 ```python3
-# number of input nodes
-n_inputs = 27
-loss_fn = "ce"
-nn = FNN(n_inputs, loss_fn)
+import numpy as np
+from matplotlib import pyplot as plt
+from mnist_loader import load_data_wrapper 
+from customdl import FNN
 
-# Add a layer with 9 nodes and activation function ReLU
-nn.add_layer(9, "relu")
-# Add a layer with 3 nodes and activation function sigmoid
-nn.add_layer(3, "sigmoid")
+# MNIST data split
+training_data, validation_data, test_data = load_data_wrapper()
 
-# Note the last layer you added will be the output layer of the NN
-# Compile the nn
-nn.compile(training_data, test_data)
+# Loss function: Cross Entropy
+hdr = FNN(784, "ce")
+hdr.add_layer(80, "sigmoid")
+hdr.add_layer(10, "sigmoid")
+
+hdr.compile(training_data, test_data)
 ```
-* Available options:
-    * Weight initialization: Random, Xavier, He 
-    * Activation functions: Identity, Sigmoid, Softmax, Tanh, ReLU
-    * Loss functions: MSE, Cross Entropy
-    * Learning mode: online, mini-batch, batch
-    * Optimizers: GD, Momentum based GD, Nesterov accerelated GD  
-* Refer to the [Handwritten digit recognizer](https://github.com/Taarak9/Handwritten-Digit-Recognition/blob/main/src/FNN/hdr_fnn.ipynb) built using this package.
+The mnist_loader used could be found [here](https://github.com/mnielsen/neural-networks-and-deep-learning/blob/master/src/mnist_loader.py).
 
-### To-do list
-* [ ] Use validation data for hyperparameter tuning
-* [ ] Plots for monitoring loss and accuracy over epochs
-* [ ] Regularization techniques: L1, L2, dropout
-* [ ] Add optimizers: Adam, RMSProp
-* [ ] RBF NN
+### Features to be added
+* Using validation data for hyperparameter tuning
+* Plots for monitoring loss and accuracy over epochs
+* Regularization techniques: L1, L2, dropout
+* Optimizers: Adam, RMSProp
+* RBF NN
