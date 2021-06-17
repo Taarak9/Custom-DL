@@ -37,13 +37,13 @@ training_data, validation_data, test_data = load_data_wrapper()
 hdr = FNN(784, "ce")
 hdr.add_layer(80, "sigmoid")
 hdr.add_layer(10, "sigmoid")
-
-hdr.compile(training_data, test_data)
+hdr.compile()
+hdr.fit(training_data, validation_data)
+hdr.accuracy(test_data)
 ```
 The mnist_loader used could be found [here](https://github.com/mnielsen/neural-networks-and-deep-learning/blob/master/src/mnist_loader.py).
 
 ### Features to be added
-* Using validation data for hyperparameter tuning
 * Plots for monitoring loss and accuracy over epochs
 * Regularization techniques: L1, L2, dropout
 * Optimizers: Adam, RMSProp
