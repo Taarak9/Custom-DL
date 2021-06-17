@@ -2,6 +2,7 @@ import numpy as np
 import random
 import json
 from matplotlib import pyplot as plt
+#from base import activation_function, loss_function
 from .base import activation_function, loss_function
 
 class FNN():
@@ -47,64 +48,64 @@ class FNN():
     accuracy: list
         List to store the accuracy at each epoch.
      
-     Methods
-     -------
-     weight_initializer(name="random"):
-         Initializes weights and biases.
+    Methods
+    -------
+    weight_initializer(name="random"):
+        Initializes weights and biases.
 
-     init_params(sizes, epochs):
-         Initializes parameters in the NN.
-     
-     get_params():
-         Return weights and biases of the NN.
-     
-     add_layer(n_nodes, activation_type):
-         Adds a layer to the NN.
-     
-     feedforward(a):
-         Return the output of NN if input is a. 
-     
-     evaluate(test_data, task):      
-         Return the number of test inputs for which the
-         NN outputs the correct result.
-     
-     backprop(x, y, weights=None, biases=None):
-         Returns the gradients of weights and biases
-         for a given example.
-     
-     get_batch_size(training_data, mode, mini_batch_size):
-         Returns the batch size given mode.
+    init_params(sizes, epochs):
+        Initializes parameters in the NN.
+    
+    get_params():
+        Return weights and biases of the NN.
+    
+    add_layer(n_nodes, activation_type):
+        Adds a layer to the NN.
+    
+    feedforward(a):
+        Return the output of NN if input is a. 
+    
+    accuracy(data, task):      
+        Return the accuracy of NN on the given data.
+    
+    backprop(x, y, weights=None, biases=None):
+        Returns the gradients of weights and biases
+        for a given example.
+    
+    get_batch_size(training_data, mode, batch_size):
+        Returns the batch size given mode.
      
     update_GD(mini_batch, eta):
         Updates weights and biases after 
         applying Gradient Descent (GD)
         on the mini batch.
      
-     update_MGD(mini_batch, gamma, eta):
-         Updates weights and biases after 
-         applying Momentum based Gradient Descent (MGD)
-         on the mini batch.
-     
-     update_NAG(mini_batch, eta, gamma):
-         Updates weights and biases after 
-         applying Nesterov accerelated Gradient Descent (NAG)
-         on the mini batch.
-     
-     Optimizer(training_data, epochs, mini_batch_size, eta, 
-       gamma=None, optimizer="GD", mode="batch", 
-       shuffle=True, test_data=None, task=None):
-         Runs the optimizer on the training data for given number of epochs.
-     
-     compile(training_data, test_data=None):
-         Compiles the NN i.e Initializes the parameters and runs the optimizer.
+    update_MGD(mini_batch, gamma, eta):
+        Updates weights and biases after 
+        applying Momentum based Gradient Descent (MGD)
+        on the mini batch.
+    
+    update_NAG(mini_batch, eta, gamma):
+        Updates weights and biases after 
+        applying Nesterov accerelated Gradient Descent (NAG)
+        on the mini batch.
+    
+    compile(training_data, test_data=None):
+        Compiles the NN.
+        
+    fit(training_data, validation_data=None):
+        Runs the optimizer on the training data for given number of epochs.
+        
+    predict(new_data):
+        Gives NN predictions on the new data
      
     logging(test_data=None):
         Given test data, it plots Epoch vs Error graph.
      
-    save(self, filename):
+    save(filename):
         Saves the NN to the file.
      
-    load(self, filename):
+    load(filename):
         laads the NN from the file.
     """
 
@@ -133,8 +134,8 @@ class FNN():
         self.prev_update_b = list()
         self.activation_types = list()
         self.loss_fn = loss_fn
+        self.config = dict()
         self.epoch_list = list()
-        self.accuracy = list()
         
     def weight_initializer(self, name="random"):
         """
@@ -256,35 +257,29 @@ class FNN():
           l += 1
         return a
 
-    def evaluate(self, test_data, task): 
+    def accuracy(self, data): 
         """
         Return the no of test inputs for which the NN outputs the correct result.
            
         Parameters
         ----------
-        test_data: list
+        data: list
             List of tuples (x, y)
-        
-        type: str
-            Type of task.
-            Options:
-                classification
-                regression
         
         Returns
         -------
         Returns int 
         """
         
-        if task == "classification":
-            test_results = [(np.argmax(self.feedforward(x)), y) 
-                            for (x, y) in test_data]
-        elif task == "regression":
-            test_results = [(self.feedforward(x), y) for (x, y) in test_data]
+        if self.config["task"] == "classification":
+            results = [(np.argmax(self.feedforward(x)), y) 
+                            for (x, y) in data]
+        elif self.config["task"] == "regression":
+            results = [(self.feedforward(x), y) for (x, y) in data]
         else:
             return -1
-        return sum(int(x == y) for (x, y) in test_results)
-
+        return sum(int(x == y) for (x, y) in results) / len(data) * 100
+    
     def backprop(self, x, y, weights=None, biases=None):
         """
         Returns the gradients of weights and biases for a given example.
@@ -374,7 +369,7 @@ class FNN():
         return (gradient_w, gradient_b)
 
 
-    def get_batch_size(self, training_data, mode, mini_batch_size):
+    def get_batch_size(self, training_data, mode, batch_size):
         """
         Returns the batch size given mode.
         
@@ -389,7 +384,7 @@ class FNN():
                 mini_batch
                 batch
         
-        mini_batch_size: int
+        batch_size: int
             Size of the mini_batch
         
         Returns
@@ -400,7 +395,7 @@ class FNN():
         if mode == "online":
             return 1
         elif mode == "mini_batch":
-            return mini_batch_size
+            return batch_size
         elif mode == "batch":
             return len(training_data)
 
@@ -542,10 +537,70 @@ class FNN():
         self.prev_update_w = update_w
         self.prev_update_b = update_b
 
+    def compile(self):
+        """
+        Compiles the NN.
+          
+        Initializes the parameters of the NN.
+        
+        Returns
+        -------
+        None
+        """
+        
+        self.config["epochs"] = int(input("Number of epochs: "))
 
-    def Optimizer(self, training_data, epochs, mini_batch_size=None, eta=1, 
-                  gamma=None, optimizer="GD", mode="batch", shuffle=True,  
-                  test_data=None, task=None):
+        pretrain = input("Load Neural Network(Yes/No): ")
+        if pretrain == "Yes":
+            self.init_params(self.sizes, self.config["epochs"])
+            filename = input("Enter the filename: ")
+            self.load(filename)
+        else:
+            print("Weight initialization methods available:")
+            print("random (Random initialization)")
+            print("xavier (Xavier initialization)")
+            print("he (He initialization)")
+            weight_init_type = input("Weight initialization: ")
+            self.init_params(self.sizes, self.config["epochs"], weight_init_type)
+      
+        print("Optimizer types available:")
+        print("GD (Gradient Desecent)")
+        print("MGD (Momentum based Gradient Desecent)")
+        print("NAG (Nesterov accerelated Gradient Desecent)")
+        self.config["optimizer"] = input("Optimizer: ")
+        if (self.config["optimizer"] == "MGD" or self.config["optimizer"] == "NAG"):
+            self.config["gamma"] = float(input("gamma (momentum): "))
+        else:
+            self.config["gamma"] = None
+        
+        self.config["eta"] = float(input("Learning rate: "))
+        
+        self.config["mode"] = input("learning mode (online/mini_batch/batch): ")
+        if self.config["mode"] == "mini_batch":
+            self.config["batch_size"] = int(input("Mini-batch size: "))
+        else:
+            self.config["batch_size"] = None
+        
+        self.config["shuffle"] = bool(input("Random shuffle training data (True/False): "))
+        
+        self.config["task"] = input("task (classification/regression): ")
+        
+        '''        
+        self.fit(training_data, epochs, batch_size, eta, gamma,
+                       optimizer, mode, shuffle, test_data, task)
+          
+        if test_data:
+            self.logging(test_data)
+
+        save_option = input("Save Neural Network(Yes/No): ")
+        if save_option == "Yes":
+            filename = input("Enter the filename: ")
+            self.save(filename)
+        else:
+            pass
+        '''
+        
+    def fit(self, training_data, validation_data=None):
         """
         Runs the optimizer on the training data for given number of epochs.
         
@@ -557,7 +612,7 @@ class FNN():
         epochs: int
             Maximum number of epochs.
         
-        mini_batch_size: int
+        batch_size: int
             Size of the mini_batch
         
         eta: float
@@ -602,103 +657,48 @@ class FNN():
         """
         
         n = len(training_data)
-        batch_size = self.get_batch_size(training_data, mode, mini_batch_size)
+        batch_size = self.get_batch_size(training_data, self.config["mode"]
+                                         , self.config["batch_size"])
         
-        if optimizer == "MGD":
+        if self.config["optimizer"] == "MGD":
             self.prev_update_w = [np.zeros(w.shape) for w in self.weights]
             self.prev_update_b = [np.zeros(b.shape) for b in self.biases]
         
         print("---------------Status---------------")
-        for e in range(epochs):
-            if shuffle:
+        best_accuracy = 0
+        best_weights = list()
+        best_biases = list()
+        for e in range(self.config["epochs"]):
+            if self.config["shuffle"]:
                 random.shuffle(training_data)
             
             mini_batches = [training_data[k:k+batch_size]
                             for k in range(0, n, batch_size)]
             
             for mini_batch in mini_batches:
-                if optimizer == "GD":
-                    self.update_GD(mini_batch, eta)
-                elif optimizer == "MGD":
-                    self.update_MGD(mini_batch, eta, gamma)
-                elif optimizer == "NAG":
-                    self.update_NAG(mini_batch, eta, gamma)
+                if self.config["optimizer"] == "GD":
+                    self.update_GD(mini_batch, self.config["eta"])
+                elif self.config["optimizer"] == "MGD":
+                    self.update_MGD(mini_batch, self.conifg["eta"],
+                                    self.config["gamma"])
+                elif self.config["optimizer"] == "NAG":
+                    self.update_MGD(mini_batch, self.conifg["eta"],
+                                    self.config["gamma"])
             
-            if test_data:
-                #FNN.tracking(e, epochs, test_data, task)
-                print("Epoch: ", e, "Accuracy: ",
-                      self.evaluate(test_data, task) / len(test_data) * 100)
-                self.accuracy.append(self.evaluate(test_data, task) /
-                                     len(test_data) * 100)
-                if e == epochs - 1:
-                    print("Max accuracy achieved: ", 
-                          np.around(np.max(self.accuracy), decimals=2), 
-                            "at epoch ", self.epoch_list[np.argmax(self.accuracy)])
+            if validation_data:
+                acc =  self.accuracy(validation_data)
+                if acc > best_accuracy:
+                    best_accuracy = acc
+                    best_weights = self.weights
+                    best_biases = self.biases
+                print("Epoch: ", e, "Accuracy: ", acc)
+                if e == self.config["epochs"] - 1:
+                    print("Max accuracy achieved on validation data: ",
+                          best_accuracy)
+                    self.weights = best_weights
+                    self.biases = best_biases
             else:
-                print("Epoch {0} complete".format(e))        
-
-    def compile(self, training_data, test_data=None):
-        """
-        Compiles the NN.
-          
-        Initializes the parameters, runs the optimizer
-        and plots epoch vs error graph given test data.
-        
-        Parameters
-        ----------
-        training_data: list
-            List of tuples (x, y)
-        
-        test_data: list
-            List of tuples (x, y)
-        
-        Returns
-        -------
-        None
-        """
-        
-        epochs = int(input("Number of epochs: "))
-
-        pretrain = input("Load Neural Network(Yes/No): ")
-        if pretrain == "Yes":
-            self.init_params(self.sizes, epochs)
-            filename = input("Enter the filename: ")
-            self.load(filename)
-        else:
-            print("Weight initialization methods available:")
-            print("random (Random initialization)")
-            print("xavier (Xavier initialization)")
-            print("he (He initialization)")
-            weight_init_type = input("Weight initialization: ")
-            self.init_params(self.sizes, epochs, weight_init_type)
-      
-        print("Optimizer types available:")
-        print("GD (Gradient Desecent)")
-        print("MGD (Momentum based Gradient Desecent)")
-        print("NAG (Nesterov accerelated Gradient Desecent)")
-        optimizer = input("Optimizer: ")
-        if (optimizer == "MGD" or optimizer == "NAG"):
-            gamma = float(input("gamma (momentum): "))
-        else:
-            gamma = None
-        
-        eta = float(input("Learning rate: "))
-        
-        mode = input("learning mode (online/mini_batch/batch): ")
-        if mode == "mini_batch":
-            mini_batch_size = int(input("Mini-batch size: "))
-        else:
-            mini_batch_size = None
-        
-        shuffle = bool(input("Random shuffle training data (True/False): "))
-        
-        task = input("task (classification/regression): ")
-                
-        self.Optimizer(training_data, epochs, mini_batch_size, eta, gamma,
-                       optimizer, mode, shuffle, test_data, task)
-          
-        if test_data:
-            self.logging(test_data)
+                print("Epoch {0} complete".format(e))
 
         save_option = input("Save Neural Network(Yes/No): ")
         if save_option == "Yes":
@@ -706,7 +706,10 @@ class FNN():
             self.save(filename)
         else:
             pass
-            
+                
+    def predict(self, new_data):
+        return self.feedforward(x for x in new_data)     
+    
     def logging(self, test_data=None):
         """
         Given test data it plots Epoch vs Error graph.
